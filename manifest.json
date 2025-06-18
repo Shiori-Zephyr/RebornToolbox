@@ -2,6 +2,7 @@
   "Author": "The Combat Reborn Team",
   "Name": "Reborn Toolbox",
   "InternalName": "RebornToolbox",
+  "RepoUrl": "https://github.com/FFXIV-CombatReborn/RebornToolbox",
   "Description": "Various tweaks and features provided by the Combat Reborn team that don't need their own plugin",
   "ApplicableVersion": "any",
   "Tags": [
