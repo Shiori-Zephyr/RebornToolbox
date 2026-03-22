@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Keys;
 using Dalamud.Plugin.Services;
 using ECommons;
@@ -11,19 +11,21 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.Sheets;
+using ContentRoulette = Lumina.Excel.Sheets.ContentRoulette;
 
 namespace RebornToolbox.Features.ChocoboRacing;
 
 public class ChocoboRacing
 {
     public bool IsRunning { get; set; } = false;
+    private readonly Random _random = new();
+    private int _exitDelay = 0;
 
     public IEnumerable<ContentRoulette> ContentRoulettes;
 
     public ChocoboRacing()
     {
-        ContentRoulettes = Svc.Data.GetExcelSheet<ContentRoulette>(Svc.ClientState.ClientLanguage)!;
+        ContentRoulettes = Svc.Data.GetExcelSheet<ContentRoulette>();
         Svc.Framework.Update += OnUpdate;
     }
 
@@ -88,10 +90,27 @@ public class ChocoboRacing
             return;
         }
 
+        // Auto-exit race results screen via RaceChocoboResult addon (the one with the Exit button)
+        if (GenericHelpers.TryGetAddonByName("RaceChocoboResult", out AtkUnitBase* raceResult) &&
+            GenericHelpers.IsAddonReady(raceResult))
+        {
+            if (IsMoving)
+                IsMoving = false;
+            if (_exitDelay == 0)
+            {
+                _exitDelay = _random.Next(1000, 7001);
+            }
+            if (EzThrottler.Throttle("FttM_ExitResults", _exitDelay))
+            {
+                Callback.Fire(raceResult, true, 1);
+                _exitDelay = 0;
+            }
+            return;
+        }
+
         if (Plugin.Configuration.ChocoboRacingConfig.AutoRun && Svc.Condition[ConditionFlag.ChocoboRacing] &&
             GenericHelpers.TryGetAddonByName("_RaceChocoboParameter", out AtkUnitBase* raceChocoboParameter))
         {
-            Svc.Log.Verbose("Zoom zoom....");
             var lathered = raceChocoboParameter->GetImageNodeById(3)->IsVisible();
             var stamina = raceChocoboParameter->GetNodeById(5)->GetAsAtkCounterNode()->NodeText.ToString();
             var hasStamina = !string.Equals(stamina, "0.00%");

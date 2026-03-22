@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using Dalamud.Game.Text.SeStringHandling;
@@ -19,7 +19,7 @@ using FFXIVClientStructs.FFXIV.Client.Graphics.Render;
 using FFXIVClientStructs.FFXIV.Client.System.String;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using Lumina.Excel.Sheets;
 using OtterGui;
 using OtterGui.Classes;
@@ -315,7 +315,7 @@ public class MBShoppingList_UI : Window
 
     private unsafe void DrawItemSearch(ShoppingListItem item)
     {
-        AddonItemSearch* addonItemSearch = (AddonItemSearch*)Svc.GameGui.GetAddonByName("ItemSearch");
+        AddonItemSearch* addonItemSearch = (AddonItemSearch*)Svc.GameGui.GetAddonByName("ItemSearch").Address;
         var disabled = addonItemSearch == null;
         var description = disabled
             ? "Automatically search for this item on the Marketboard (MarketBoard window must be open)"
@@ -402,7 +402,7 @@ public class MBShoppingList_UI : Window
 
     private unsafe void DrawMBButton(ShoppingListItem item)
     {
-        var mbAddon = (AddonItemSearch*)Svc.GameGui.GetAddonByName("ItemSearch");
+        var mbAddon = (AddonItemSearch*)Svc.GameGui.GetAddonByName("ItemSearch").Address;
         if (mbAddon == null)
             return;
 
