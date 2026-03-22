@@ -1,7 +1,7 @@
-﻿using Dalamud.Interface.Colors;
+using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility.Raii;
 using ECommons;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using OtterGui;
 using RebornToolbox.Features.MBShoppingList.Models;
 

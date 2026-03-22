@@ -1,5 +1,4 @@
-﻿using Dalamud;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using ECommons;
 using ECommons.Automation.NeoTaskManager;

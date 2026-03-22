@@ -23,8 +23,6 @@ public class MBShoppingList
 
     public List<ShoppingListItem> WantedItems = [];
 
-    public Chat Chat;
-
     public TaskManager TaskManager;
 
 #if DEBUG
@@ -41,10 +39,8 @@ public class MBShoppingList
 
     public MBShoppingList()
     {
-        AllItems = Svc.Data.GameData.GetExcelSheet<Item>()!.ToList();
+        AllItems = Svc.Data.GetExcelSheet<Item>().ToList();
         MarketableItems = AllItems.Where(i => i.ItemSearchCategory.RowId != 0).ToList();
-
-        Chat = new Chat();
 
         TaskManager = new TaskManager(DefaultTaskConfig);
         LoadList();

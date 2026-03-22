@@ -1,18 +1,15 @@
-﻿using Dalamud.Game.Inventory.InventoryEventArgTypes;
+using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using ECommons.Automation;
 using ECommons.DalamudServices;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace RebornToolbox.Features.InvSort;
 
 public class InvSort
 {
-    private Chat chat;
-
     public InvSort()
     {
-        chat = new Chat();
         Svc.GameInventory.InventoryChanged += OnInventoryChanged;
     }
 
@@ -26,9 +23,9 @@ public class InvSort
         {
             Svc.Log.Verbose($"Sorting inventory");
             lastSort = DateTime.Now;
-            chat.ExecuteCommand("/isort condition inventory ilv des");
-            chat.ExecuteCommand("/isort execute inventory");
-            chat.ExecuteCommand("/isort clear inventory");
+            Chat.ExecuteCommand("/isort condition inventory ilv des");
+            Chat.ExecuteCommand("/isort execute inventory");
+            Chat.ExecuteCommand("/isort clear inventory");
         }
     }
 }
