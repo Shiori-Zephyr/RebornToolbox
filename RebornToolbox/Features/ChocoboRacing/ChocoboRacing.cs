@@ -144,7 +144,7 @@ public class ChocoboRacing
             var selectedContent = cfAgent->SelectedContent;
             if (!selectedContent.Any(c =>
                     c.Id == (byte)Plugin.Configuration.ChocoboRacingConfig.RaceRoute &&
-                    c.ContentType == ContentsId.ContentsType.Roulette))
+                    c.ContentType == ContentsType.Roulette))
             {
                 SelectDuty(addon);
                 return;
